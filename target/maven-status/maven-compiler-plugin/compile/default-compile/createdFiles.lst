@@ -1,0 +1,6 @@
+com\puntosim\databaseschemadefiner\ui\MainWindow.class
+com\puntosim\databaseschemadefiner\model\Table.class
+com\puntosim\databaseschemadefiner\model\DBHelper.class
+com\puntosim\databaseschemadefiner\ui\MainWindow$1.class
+com\puntosim\databaseschemadefiner\model\ForeignKey.class
+com\puntosim\databaseschemadefiner\ui\TableReviewPanel.class
