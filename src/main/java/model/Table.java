@@ -24,6 +24,7 @@ public class Table implements Serializable {
     private PrimaryKeyConstraint primaryKeyConstraint;
     private List<ForeignKeyConstraint> foreignKeyConstraints;
     private List<UniqueKeyConstraint> uniqueKeyConstraints;
+    private List<Index> indexes;
     private String comment;
 
     public Table(String schema, String name, String engine, String collation, Integer autoIncrement, String comment) {
@@ -36,8 +37,9 @@ public class Table implements Serializable {
         columns = new ArrayList<>();
         foreignKeyConstraints = new ArrayList<>();
         uniqueKeyConstraints = new ArrayList<>();
-    } 
-    
+        indexes = new ArrayList<>();
+    }
+
     public List<Column> getColumns() {
         return columns;
     }
@@ -45,8 +47,8 @@ public class Table implements Serializable {
     public void setColumns(List<Column> columns) {
         this.columns = columns;
     }
-    
-        public void setPrimaryKeyConstraint(PrimaryKeyConstraint primaryKeyConstraint) {
+
+    public void setPrimaryKeyConstraint(PrimaryKeyConstraint primaryKeyConstraint) {
         this.primaryKeyConstraint = primaryKeyConstraint;
     }
 
@@ -56,6 +58,10 @@ public class Table implements Serializable {
 
     public void setUniqueKeyConstraints(List<UniqueKeyConstraint> uniqueKeyConstraints) {
         this.uniqueKeyConstraints = uniqueKeyConstraints;
+    }
+
+    public void setIndexes(List<Index> indexes) {
+        this.indexes = indexes;
     }
 
 }
