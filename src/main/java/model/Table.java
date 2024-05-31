@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  *
  * @author juanv
  */
-public class Table {
+public class Table implements Serializable {
 
     private String schema;
     private String name;

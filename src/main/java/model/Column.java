@@ -5,11 +5,13 @@
  */
 package model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author juanv
  */
-public class Column {
+public class Column implements Serializable {
     
     private String name;
     private Integer ordinalPosition;

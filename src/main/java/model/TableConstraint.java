@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -13,7 +14,7 @@ import java.util.Set;
  *
  * @author juanv
  */
-public abstract class TableConstraint {
+public abstract class TableConstraint implements Serializable {
     
     public final static String UNIQUE_TYPE = "UNIQUE";
     public final static String PRIMARY_KEY_TYPE = "PRIMARY KEY";
