@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,13 +13,17 @@ import java.util.Map;
  *
  * @author juanv
  */
-public class Index {
+public class Index implements Serializable {
     
     protected String name;
+    protected Boolean unique;
+    protected String comment;
     protected Map<String, Integer> columnsOrdinalPositions;
     
-    public Index(String name) {
+    public Index(String name, Boolean unique, String comment) {
         this.name = name;
+        this.unique = unique;
+        this.comment = comment;
         columnsOrdinalPositions = new HashMap<>();
     }
 
