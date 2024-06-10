@@ -27,44 +27,43 @@ public class SettingsHelper {
     public static final String SERVER_PORT = "db.server.port";
     public static final String USERNAME = "db.username";
     public static final String PASSWORD = "db.password";
+    public static final String TABLES_FILE = "tables.path";
     
-    private static File settingsFile = new File("./config.properties");
-    private static Properties settings = null;
-
-    public static void loadSettings() {
+    private File settingsFile = new File("./config.properties");
+    private Properties settings = null;
+    
+    public boolean loadSettings() {
         settings = new Properties();
 
         if (!settingsFile.exists()) {
-            return;
+            return false;
         }
 
         try (FileInputStream inputStream = new FileInputStream(settingsFile)) {
             settings.load(inputStream);
+            return true;
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
+        
+        return false;
     }
     
-    public static void saveSettings() {
+    public void saveSettings() throws FileNotFoundException, IOException {
         
         try (OutputStream output = new FileOutputStream(settingsFile)) {
             settings.store(output, "");
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        } 
         
     }
 
-    public static String getSetting(String identifier) {
+    public String getSetting(String identifier) {
         return settings.getProperty(identifier);
     }
     
-    public static void setSetting(String identifier, String value) {
+    public void setSetting(String identifier, String value) {
         settings.setProperty(identifier, value);
     }
 
