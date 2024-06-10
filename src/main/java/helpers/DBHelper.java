@@ -326,4 +326,24 @@ public class DBHelper {
         return String.format(baseConnectionString, serverIp, port, schemaName);
     }
 
+    public void setServerIp(String serverIp) {
+        this.serverIp = serverIp;
+    }
+
+    public void setPort(String port) {
+        this.port = port;
+    }
+
+    public void setSchemaName(String schemaName) {
+        this.schemaName = schemaName;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
 }
