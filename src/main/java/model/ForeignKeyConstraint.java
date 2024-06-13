@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  *
@@ -21,7 +22,7 @@ public class ForeignKeyConstraint extends TableConstraint{
     private String referencedTableSchema;
     private String referencedTable;
     //Key: Child Table Column - Value: Parent Table Column
-    private Map<String, String> referencedColumnsMatches;
+    private Map<UUID, String> referencedColumnsMatches;
     private String onUpdateAction;
     private String onDeleteAction;
 
@@ -32,7 +33,7 @@ public class ForeignKeyConstraint extends TableConstraint{
         this.referencedTable = referencedTable;
         this.onUpdateAction = onUpdateAction;
         this.onDeleteAction = onDeleteAction;
-        referencedColumnsMatches = new HashMap<String, String>();
+        referencedColumnsMatches = new HashMap<UUID, String>();
     }
     
     public String getReferencedTableSchema() {
@@ -51,7 +52,7 @@ public class ForeignKeyConstraint extends TableConstraint{
         return referencedColumnsMatches.get(columnName);
     }
 
-    public Map<String, String> getReferencedColumnsMatches() {
+    public Map<UUID, String> getReferencedColumnsMatches() {
         return referencedColumnsMatches;
     }
     

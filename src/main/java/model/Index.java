@@ -8,6 +8,7 @@ package model;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  *
@@ -18,7 +19,7 @@ public class Index implements Serializable {
     protected String name;
     protected Boolean unique;
     protected String comment;
-    protected Map<String, Integer> columnsOrdinalPositions;
+    protected Map<UUID, Integer> columnsOrdinalPositions;
     
     public Index(String name, Boolean unique, String comment) {
         this.name = name;
@@ -35,12 +36,18 @@ public class Index implements Serializable {
         this.name = name;
     }
 
-    public Map<String, Integer> getColumnsOrdinalPositions() {
+    public Map<UUID, Integer> getColumnsOrdinalPositions() {
         return columnsOrdinalPositions;
     }
 
-    public void setColumnsOrdinalPositions(Map<String, Integer> columnsOrdinalPositions) {
-        this.columnsOrdinalPositions = columnsOrdinalPositions;
+    public Boolean getUnique() {
+        return unique;
     }
-        
+
+    public String getComment() {
+        return comment;
+    }
+
+    
+    
 }

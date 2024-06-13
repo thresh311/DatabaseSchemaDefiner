@@ -6,6 +6,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  *
@@ -13,6 +14,7 @@ import java.io.Serializable;
  */
 public class Column implements Serializable {
     
+    private UUID id;
     private String name;
     private Integer ordinalPosition;
     private Boolean isNullable;
@@ -24,6 +26,7 @@ public class Column implements Serializable {
     private String extra;
 
     public Column(String name, Integer ordinalPosition, Boolean isNullable, String defaultValue, String type, String collationName, String comment, String extra) {
+        this.id = UUID.randomUUID();
         this.name = name;
         this.ordinalPosition = ordinalPosition;
         this.isNullable = isNullable;
@@ -37,5 +40,42 @@ public class Column implements Serializable {
     public Boolean isAutoIncremental() {
         return extra.equals("auto_increment");
     }
+
+    public UUID getId() {
+        return id;
+    }
     
+    public String getName() {
+        return name;
+    }
+
+    public Integer getOrdinalPosition() {
+        return ordinalPosition;
+    }
+
+    public Boolean getIsNullable() {
+        return isNullable;
+    }
+
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getCollationName() {
+        return collationName;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public String getExtra() {
+        return extra;
+    }
+    
+        
 }

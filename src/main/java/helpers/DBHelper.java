@@ -12,8 +12,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import model.Column;
 import model.ForeignKeyConstraint;
@@ -77,7 +80,7 @@ public class DBHelper {
         return tableNames;
     }
 
-    public List<TableConstraint> getTableConstraints(String tableName, String constraintType) throws SQLException {
+    public List<TableConstraint> getTableConstraints(String tableName, Map<String,UUID> columnsIds, String constraintType) throws SQLException {
 
         List<TableConstraint> constraints = new ArrayList<>();
         String constraintsQueryString;
@@ -152,11 +155,11 @@ public class DBHelper {
                     String columnName = resultSet.getString("COLUMN_NAME");
                     Integer ordinalPosition = resultSet.getInt("ORDINAL_POSITION");
 
-                    newConstraint.getColumnsOrdinalPositions().put(columnName, ordinalPosition);
+                    newConstraint.getColumnsOrdinalPositions().put(columnsIds.get(columnName), ordinalPosition);
 
                     if (constraintType.equals(TableConstraint.FOREIGN_KEY_TYPE)) {
                         String referencedColumnName = resultSet.getString("REFERENCED_COLUMN_NAME");
-                        ((ForeignKeyConstraint) newConstraint).getReferencedColumnsMatches().put(columnName, referencedColumnName);
+                        ((ForeignKeyConstraint) newConstraint).getReferencedColumnsMatches().put(columnsIds.get(columnName), referencedColumnName);
                     }
 
                 }
@@ -171,7 +174,7 @@ public class DBHelper {
 
     }
 
-    public List<Index> getTableIndexes(String tableName, List<UniqueKeyConstraint> uniqueKeys, List<ForeignKeyConstraint> foreignKeys) throws SQLException {
+    public List<Index> getTableIndexes(String tableName, Map<String,UUID> columnsIds, List<UniqueKeyConstraint> uniqueKeys, List<ForeignKeyConstraint> foreignKeys) throws SQLException {
 
         List<Index> indexes = new ArrayList<>();
         String indexesQueryString = "SELECT *\n"
@@ -212,7 +215,7 @@ public class DBHelper {
                     String columnName = resultSet.getString("COLUMN_NAME");
                     Integer ordinalPosition = resultSet.getInt("SEQ_IN_INDEX");
 
-                    newIndex.getColumnsOrdinalPositions().put(columnName, ordinalPosition);
+                    newIndex.getColumnsOrdinalPositions().put(columnsIds.get(columnName), ordinalPosition);
                 }
             }
         }
@@ -296,26 +299,31 @@ public class DBHelper {
         }
 
         List<Column> columns = getTableColumns(tableName);
-        table.setColumns(columns);
-
-        List<PrimaryKeyConstraint> primaryKeys = getTableConstraints(tableName, TableConstraint.PRIMARY_KEY_TYPE).stream()
+        HashMap<String, UUID> columnsIds = new HashMap<>();
+        
+        for (Column c : columns) {
+            table.addColumn(c);
+            columnsIds.put(c.getName(), c.getId());
+        }
+       
+        List<PrimaryKeyConstraint> primaryKeys = getTableConstraints(tableName, columnsIds, TableConstraint.PRIMARY_KEY_TYPE).stream()
                 .map(c -> (PrimaryKeyConstraint) c)
                 .collect(Collectors.toList());
         if (!primaryKeys.isEmpty()) {
             table.setPrimaryKeyConstraint(primaryKeys.get(0));
         }
 
-        List<ForeignKeyConstraint> foreignKeys = getTableConstraints(tableName, TableConstraint.FOREIGN_KEY_TYPE)
+        List<ForeignKeyConstraint> foreignKeys = getTableConstraints(tableName, columnsIds, TableConstraint.FOREIGN_KEY_TYPE)
                 .stream()
                 .map(c -> (ForeignKeyConstraint) c).collect(Collectors.toList());
         table.setForeignKeyConstraints(foreignKeys);
 
-        List<UniqueKeyConstraint> uniqueKeys = getTableConstraints(tableName, TableConstraint.UNIQUE_TYPE)
+        List<UniqueKeyConstraint> uniqueKeys = getTableConstraints(tableName, columnsIds, TableConstraint.UNIQUE_TYPE)
                 .stream()
                 .map(c -> (UniqueKeyConstraint) c).collect(Collectors.toList());
         table.setUniqueKeyConstraints(uniqueKeys);
 
-        List<Index> indexes = getTableIndexes(tableName, uniqueKeys, foreignKeys);
+        List<Index> indexes = getTableIndexes(tableName, columnsIds, uniqueKeys, foreignKeys);
         table.setIndexes(indexes);
 
         return table;

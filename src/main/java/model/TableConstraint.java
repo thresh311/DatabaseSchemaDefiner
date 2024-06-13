@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  *
@@ -23,7 +24,7 @@ public abstract class TableConstraint implements Serializable {
     
     protected String name;
     protected String type;
-    protected Map<String, Integer> columnsOrdinalPositions;
+    protected Map<UUID, Integer> columnsOrdinalPositions;
     
     public TableConstraint(String name) {
         this.name = name;
@@ -38,11 +39,11 @@ public abstract class TableConstraint implements Serializable {
         return type;
     }
 
-    public Map<String, Integer> getColumnsOrdinalPositions() {
+    public Map<UUID, Integer> getColumnsOrdinalPositions() {
         return columnsOrdinalPositions;
     }
     
-    public Set<String> getColumnNames() {
+    public Set<UUID> getColumnsIds() {
         return columnsOrdinalPositions.keySet();
     }
         
