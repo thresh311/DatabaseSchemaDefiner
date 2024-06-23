@@ -16,16 +16,33 @@ import java.util.UUID;
  */
 public class Index implements Serializable {
     
+    private static final long serialVersionUID = 1L;
+
     protected String name;
     protected Boolean unique;
     protected String comment;
     protected Map<UUID, Integer> columnsOrdinalPositions;
-    
+
+    private Index() {
+        
+    }
+
     public Index(String name, Boolean unique, String comment) {
         this.name = name;
         this.unique = unique;
         this.comment = comment;
-        columnsOrdinalPositions = new HashMap<>();
+        this.columnsOrdinalPositions = new HashMap<>();
+    }
+    
+    public Index clone() {
+        Index newIndex = new Index();
+        
+        newIndex.name = name;
+        newIndex.unique = unique;
+        newIndex.comment = comment;
+        newIndex.columnsOrdinalPositions = columnsOrdinalPositions;
+        
+        return newIndex;
     }
 
     public String getName() {
@@ -48,6 +65,4 @@ public class Index implements Serializable {
         return comment;
     }
 
-    
-    
 }

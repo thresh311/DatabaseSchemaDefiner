@@ -19,6 +19,8 @@ import java.util.UUID;
  */
 public class ForeignKeyConstraint extends TableConstraint{
     
+    private static final long serialVersionUID = 1L;
+    
     private String referencedTableSchema;
     private String referencedTable;
     //Key: Child Table Column - Value: Parent Table Column

@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
  * @author juanv
  */
 public class Table implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
 
     private String schema;
     private String name;

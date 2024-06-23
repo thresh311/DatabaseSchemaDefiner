@@ -14,6 +14,8 @@ import java.util.UUID;
  */
 public class Column implements Serializable {
     
+    private static final long serialVersionUID = 1L;
+    
     private UUID id;
     private String name;
     private Integer ordinalPosition;
@@ -25,8 +27,12 @@ public class Column implements Serializable {
     //https://dev.mysql.com/doc/refman/8.0/en/information-schema-columns-table.html
     private String extra;
 
-    public Column(String name, Integer ordinalPosition, Boolean isNullable, String defaultValue, String type, String collationName, String comment, String extra) {
+    public Column() {
         this.id = UUID.randomUUID();
+    }
+    
+    public Column(String name, Integer ordinalPosition, Boolean isNullable, String defaultValue, String type, String collationName, String comment, String extra) {
+        this();
         this.name = name;
         this.ordinalPosition = ordinalPosition;
         this.isNullable = isNullable;
@@ -36,10 +42,61 @@ public class Column implements Serializable {
         this.comment = comment;
         this.extra = extra;
     }
+       
+    @Override
+    public Column clone() {
+        Column newColumn = new Column();
+        
+        newColumn.id = id;
+        newColumn.name = name;
+        newColumn.ordinalPosition = ordinalPosition;
+        newColumn.isNullable = isNullable;
+        newColumn.defaultValue = defaultValue;
+        newColumn.type = type;
+        newColumn.collationName = collationName;
+        newColumn.comment = comment;
+        newColumn.extra = extra;
     
+        return newColumn;
+    }
+         
     public Boolean isAutoIncremental() {
         return extra.equals("auto_increment");
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setOrdinalPosition(Integer ordinalPosition) {
+        this.ordinalPosition = ordinalPosition;
+    }
+
+    public void setIsNullable(Boolean isNullable) {
+        this.isNullable = isNullable;
+    }
+
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setCollationName(String collationName) {
+        this.collationName = collationName;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public void setExtra(String extra) {
+        this.extra = extra;
+    }
+    
+    
 
     public UUID getId() {
         return id;

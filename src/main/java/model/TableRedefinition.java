@@ -20,6 +20,8 @@ import java.util.stream.Collectors;
  * @author juanv
  */
 public class TableRedefinition implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
 
     private UUID id;
     private String name;
@@ -37,7 +39,7 @@ public class TableRedefinition implements Serializable {
     private List<ForeignKeyRedefinition> foreignKeyConstraints;
     private List<UniqueKeyConstraint> uniqueKeyConstraints;
     private List<Index> indexes;
-    private Set<UUID> deletedColumnsIds;
+    private Set<UUID> deletedColumns;
 
     public TableRedefinition() {
         this.id = UUID.randomUUID();
@@ -46,7 +48,7 @@ public class TableRedefinition implements Serializable {
         this.columns = new HashMap<UUID, Column>();
         this.markedAsDeleted = false;
         this.markedAsCompleted = false;
-        this.deletedColumnsIds = new HashSet<UUID>();
+        this.deletedColumns = new HashSet<UUID>();
         this.columnsMappings = new HashMap<>();
         foreignKeyConstraints = new ArrayList<>();
         uniqueKeyConstraints = new ArrayList<>();
@@ -116,8 +118,36 @@ public class TableRedefinition implements Serializable {
                 .collect(Collectors.toList());
 
     }
+    
+    public boolean isNewColumn(UUID columnId) {
+        return !columnsMappings.containsKey(columnId);
+    }
+    
+    public boolean isDeletedColumn(UUID columnId) {
+        return deletedColumns.contains(columnId);
+    }
+    
+    public void deleteColumn(UUID id) {
+        if(isNewColumn(id)) {
+            columns.remove(id);
+        } else {
+            deletedColumns.add(id);
+        }
+    }
 
-    public Boolean isNew() {
+    public List<Index> getIndexes() {
+        return indexes;
+    }
+
+    public Map<UUID, UUID> getColumnsMappings() {
+        return columnsMappings;
+    }
+    
+    public Set<UUID> getDeletedColumns() {
+        return deletedColumns;
+    }
+    
+    public Boolean isNewTable() {
         return originalTable == null;
     }
 
@@ -163,7 +193,7 @@ public class TableRedefinition implements Serializable {
 
     @Override
     public String toString() {
-        return name + (isNew() ? "" : "/" + originalTable.getName());
+        return name + (isNewTable() ? "" : "/" + originalTable.getName());
     }
 
 }

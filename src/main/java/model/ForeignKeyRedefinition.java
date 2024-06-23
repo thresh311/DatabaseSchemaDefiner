@@ -11,6 +11,7 @@ package model;
  */
 public class ForeignKeyRedefinition {
     
+    private static final long serialVersionUID = 1L;
     
     
 }

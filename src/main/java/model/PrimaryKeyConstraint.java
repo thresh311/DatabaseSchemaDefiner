@@ -10,6 +10,8 @@ package model;
  * @author juanv
  */
 public class PrimaryKeyConstraint extends TableConstraint {
+    
+    private static final long serialVersionUID = 1L;
 
     public PrimaryKeyConstraint(String name) {
         super(name);

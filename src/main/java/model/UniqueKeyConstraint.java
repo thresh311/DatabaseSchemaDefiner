@@ -11,6 +11,8 @@ package model;
  */
 public class UniqueKeyConstraint extends TableConstraint {
     
+    private static final long serialVersionUID = 1L;
+    
     public UniqueKeyConstraint(String name) {
         super(name);
         type = TableConstraint.UNIQUE_TYPE;
