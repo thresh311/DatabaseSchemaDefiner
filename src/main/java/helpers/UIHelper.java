@@ -5,21 +5,32 @@
  */
 package helpers;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import javax.swing.JComponent;
+import org.apache.batik.anim.dom.SVGDOMImplementation;
+import org.apache.batik.transcoder.TranscoderException;
+import org.apache.batik.transcoder.TranscoderInput;
+import org.apache.batik.transcoder.TranscoderOutput;
+import org.apache.batik.transcoder.TranscodingHints;
+import org.apache.batik.transcoder.image.ImageTranscoder;
+import org.apache.batik.util.SVGConstants;
+import org.apache.commons.io.FileUtils;
 
 /**
  *
  * @author juanv
  */
 public abstract class UIHelper {
-    
-    
+        
     public static void swapComponents(
             JComponent ui, 
             JComponent current,
             JComponent next) {
-        ui.remove(current);
-        ui.add(next);
+        if(current != null) ui.remove(current);
+        if(next != null) ui.add(next);
         ui.revalidate();
     }
     
