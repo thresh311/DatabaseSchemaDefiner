@@ -18,8 +18,8 @@ public class Column implements Serializable {
     
     private UUID id;
     private String name;
-    private Integer ordinalPosition;
-    private Boolean isNullable;
+    private int ordinalPosition;
+    private boolean isNullable;
     private String defaultValue;
     private String type;
     private String collationName;
@@ -29,6 +29,12 @@ public class Column implements Serializable {
 
     public Column() {
         this.id = UUID.randomUUID();
+        this.name = "";
+        this.defaultValue = "";
+        this.type = "";
+        this.collationName = "";
+        this.comment = "";
+        this.extra = "";
     }
     
     public Column(String name, Integer ordinalPosition, Boolean isNullable, String defaultValue, String type, String collationName, String comment, String extra) {
