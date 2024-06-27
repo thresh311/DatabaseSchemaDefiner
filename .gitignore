@@ -1,5 +1,7 @@
 config.properties
 
+outputs/*
+
 # Compiled class file
 *.class
 
