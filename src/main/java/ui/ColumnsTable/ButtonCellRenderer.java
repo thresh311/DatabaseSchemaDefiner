@@ -5,6 +5,7 @@
  */
 package ui.ColumnsTable;
 
+import interfaces.ButtonCellListener;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -24,7 +25,6 @@ import javax.swing.table.TableCellRenderer;
 public class ButtonCellRenderer extends AbstractCellEditor implements TableCellRenderer, TableCellEditor {
 
     private Function<Integer, Boolean> isEnabledSupplier;
-    private ButtonCellListener listener;
     private JButton renderer;
     private JButton editor;
     private String editorValue;
@@ -33,7 +33,6 @@ public class ButtonCellRenderer extends AbstractCellEditor implements TableCellR
             Function<Integer, Boolean> isEnabledSupplier,
             ButtonCellListener listener) {
         this.isEnabledSupplier = isEnabledSupplier;
-        this.listener = listener;
         this.renderer = new JButton();
         this.editor = new JButton();
         editor.addActionListener(e -> {

@@ -31,10 +31,13 @@ import model.Index;
 import model.Table;
 import model.TableRedefinition;
 import ui.ColumnsTable.ButtonCellRenderer;
-import ui.ColumnsTable.ButtonCellListener;
+import interfaces.ButtonCellListener;
+import interfaces.SortingControlsCellListener;
 import ui.ColumnsTable.ColumnDefinitionPanel;
 import ui.ColumnsTable.ColumnsTableDefaultCellRenderer;
 import ui.ColumnsTable.ColumnsTableModel;
+import ui.ColumnsTable.SortingControlsCellRenderer;
+import ui.ColumnsTable.SortingControlsPanel;
 
 /**
  *
@@ -94,10 +97,61 @@ public class TableStructurePanel extends javax.swing.JPanel {
         sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
         sorter.setSortKeys(sortKeys);
         sorter.setSortable(0, false);
+        sorter.setSortable(1, false);
+        sorter.setSortable(2, false);
+        sorter.setSortable(3, false);
+        sorter.setSortable(4, false);
+        sorter.setSortable(5, false);
         sorter.setSortable(6, false);
         sorter.setSortable(7, false);
 
         columnsTable.setRowSorter(sorter);
+
+        SortingControlsCellRenderer sortingControls = new SortingControlsCellRenderer(
+                new SortingControlsCellListener() {
+
+            @Override
+            public void onSendToTopClicked(int row) {
+                insertColumnInPosition(row, 1);
+                ((AbstractTableModel) columnsTable.getModel()).fireTableDataChanged();
+                columnsTable.setRowSelectionInterval(columnsTable.convertRowIndexToView(row), columnsTable.convertRowIndexToView(row));
+            }
+
+            @Override
+            public void onSendToBottomClicked(int row) {
+                insertColumnInPosition(row, columns.size());
+                ((AbstractTableModel) columnsTable.getModel()).fireTableDataChanged();
+                columnsTable.setRowSelectionInterval(columnsTable.convertRowIndexToView(row), columnsTable.convertRowIndexToView(row));
+            }
+
+            @Override
+            public void onSendUpClicked(int row) {
+                ColumnsTableModel tableModel = (ColumnsTableModel) columnsTable.getModel();
+                Column c = tableModel.getColumn(row);
+                if (c.getOrdinalPosition() <= 1) {
+                    return;
+                }
+                insertColumnInPosition(row, c.getOrdinalPosition() - 1);
+                ((AbstractTableModel) columnsTable.getModel()).fireTableDataChanged();
+                columnsTable.setRowSelectionInterval(columnsTable.convertRowIndexToView(row), columnsTable.convertRowIndexToView(row));
+            }
+
+            @Override
+            public void onSendDownClicked(int row) {
+                ColumnsTableModel tableModel = (ColumnsTableModel) columnsTable.getModel();
+                Column c = tableModel.getColumn(row);
+                if (c.getOrdinalPosition() >= columns.size()) {
+                    return;
+                }
+                insertColumnInPosition(row, c.getOrdinalPosition() + 1);
+                ((AbstractTableModel) columnsTable.getModel()).fireTableDataChanged();
+                columnsTable.setRowSelectionInterval(columnsTable.convertRowIndexToView(row), columnsTable.convertRowIndexToView(row));
+            }
+
+        }
+        );
+        columnsTable.getColumnModel().getColumn(0).setCellRenderer(sortingControls);
+        columnsTable.getColumnModel().getColumn(0).setCellEditor(sortingControls);
 
         ButtonCellRenderer btnRenderer = new ButtonCellRenderer(
                 columnsTable,
@@ -136,6 +190,7 @@ public class TableStructurePanel extends javax.swing.JPanel {
                                 options,
                                 options[0]);
                         if (result == JOptionPane.YES_OPTION) {
+                            insertColumnInPosition(row, columns.size());
                             columns.remove(c);
                         }
                     } else {
@@ -146,6 +201,8 @@ public class TableStructurePanel extends javax.swing.JPanel {
                 });
         columnsTable.getColumnModel().getColumn(7).setCellRenderer(btnRenderer);
         columnsTable.getColumnModel().getColumn(7).setCellEditor(btnRenderer);
+
+        columnsTable.removeColumn(columnsTable.getColumn("Order"));
 
         columnsTable.setDefaultRenderer(Integer.class, new ColumnsTableDefaultCellRenderer());
         columnsTable.setDefaultRenderer(Object.class, new ColumnsTableDefaultCellRenderer());
@@ -178,6 +235,29 @@ public class TableStructurePanel extends javax.swing.JPanel {
         this.indexes = table.getIndexes().stream().map(i -> i.clone()).collect(Collectors.toList());
         this.deletedColumnsIds = new HashSet<>(table.getDeletedColumns());
         initializeTableFields();
+    }
+
+    private void insertColumnInPosition(int rowIndex, int newOrdinalPosition) {
+
+        ColumnsTableModel tableModel = (ColumnsTableModel) columnsTable.getModel();
+        Column column = tableModel.getColumn(rowIndex);
+
+        if (column.getOrdinalPosition() == newOrdinalPosition) {
+            return;
+        }
+
+        if (column.getOrdinalPosition() < newOrdinalPosition) {
+            columns.stream()
+                    .filter(c -> column.getOrdinalPosition() < c.getOrdinalPosition() && c.getOrdinalPosition() <= newOrdinalPosition)
+                    .forEach(c -> c.setOrdinalPosition(c.getOrdinalPosition() - 1));
+        } else {
+            columns.stream()
+                    .filter(c -> column.getOrdinalPosition() > c.getOrdinalPosition() && c.getOrdinalPosition() >= newOrdinalPosition)
+                    .forEach(c -> c.setOrdinalPosition(c.getOrdinalPosition() + 1));
+        }
+
+        column.setOrdinalPosition(newOrdinalPosition);
+
     }
 
     public void setReportMessageListener(ReportMessageListener messageListener) {
@@ -231,9 +311,9 @@ public class TableStructurePanel extends javax.swing.JPanel {
         public void mouseClicked(MouseEvent e) {
             if (e.getSource() == btnAddColumn) {
                 Column newColumn = new Column();
-                
+
                 newColumn.setOrdinalPosition(columns.size() + 1);
-                
+
                 showColumnEditingPanel(newColumn);
             }
         }
@@ -276,7 +356,6 @@ public class TableStructurePanel extends javax.swing.JPanel {
         columnsTable = new javax.swing.JTable();
         columnsTableTopPanel = new javax.swing.JPanel();
         foreignKeysPanel = new javax.swing.JPanel();
-        sortingControlsPanel1 = new ui.ColumnsTable.SortingControlsPanel();
         uniqueKeysPanel = new javax.swing.JPanel();
         indexesPanel = new javax.swing.JPanel();
 
@@ -434,6 +513,7 @@ public class TableStructurePanel extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        columnsTable.setRowHeight(24);
         columnsTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(columnsTable);
 
@@ -465,16 +545,11 @@ public class TableStructurePanel extends javax.swing.JPanel {
         foreignKeysPanel.setLayout(foreignKeysPanelLayout);
         foreignKeysPanelLayout.setHorizontalGroup(
             foreignKeysPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(foreignKeysPanelLayout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addComponent(sortingControlsPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(526, Short.MAX_VALUE))
+            .addGap(0, 975, Short.MAX_VALUE)
         );
         foreignKeysPanelLayout.setVerticalGroup(
             foreignKeysPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(foreignKeysPanelLayout.createSequentialGroup()
-                .addComponent(sortingControlsPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 51, Short.MAX_VALUE))
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         uniqueKeysPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Unique Keys"));
@@ -567,7 +642,6 @@ public class TableStructurePanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private ui.ColumnsTable.SortingControlsPanel sortingControlsPanel1;
     private javax.swing.JTextArea taTableComment;
     private javax.swing.JPanel tableColumnsPanel;
     private javax.swing.JPanel tableStructurePanel;

@@ -5,11 +5,18 @@
  */
 package ui.ColumnsTable;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,44 +28,42 @@ import javax.swing.border.EmptyBorder;
  */
 public class IconButton extends JButton {
 
+    private boolean mousePress;
+
     public IconButton() {
         setContentAreaFilled(false);
         setBorder(new EmptyBorder(3, 3, 3, 3));
-//        addComponentListener(new ComponentAdapter() {
-//                        
-//                        @Override
-//                        public void componentResized(ComponentEvent e) {
-//                            JButton btn = (JButton) e.getComponent();
-//                            Dimension size = btn.getSize();
-//                            Insets insets = btn.getInsets();
-//                            size.width -= insets.left + insets.right;
-//                            size.height -= insets.top + insets.bottom;
-//                            if(btn.getIcon() == null || !(btn.getIcon() instanceof SvgIcon)) return;
-//                            SvgIcon icon = ((SvgIcon) btn.getIcon());
-//                            int ratio = icon.getIconWidth()/icon.getIconHeight();
-//                            if (size.width > size.height) {
-//                                size.width = size.height * ratio;
-//                            } else {
-//                                size.height = size.width / ratio;
-//                            }
-//                                                        
-//                            SvgIcon scaled = new SvgIcon(((SvgIcon) btn.getIcon()).getSvgUrl(), size.width, size.height);
-//                            btn.setIcon(scaled);
-//                        }
-//                        
-//                    });
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                mousePress = false;
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                mousePress = true;
+            }
+
+        });
     }
 
-//    @Override
-//    public Icon getIcon() {
-//        ImageIcon defaultIcon = (ImageIcon) super.getIcon();
-//        
-//        if(defaultIcon != null) {
-//            Image newImg = defaultIcon.getImage().getScaledInstance(getWidth(), getHeight(),  java.awt.Image.SCALE_SMOOTH );
-//            defaultIcon.setImage(newImg);
-//            
-//        }      
-//
-//        return defaultIcon;
-//    }
+    @Override
+    protected void paintComponent(Graphics grp) {
+        Graphics2D g2 = (Graphics2D) grp.create();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        int width = getWidth();
+        int height = getHeight();
+        int size = Math.min(width, height);
+        int x = (width - size) / 2;
+        int y = (height - size) / 2;
+        if (mousePress) {
+            g2.setColor(new Color(97, 133, 187));
+        } else {
+            g2.setColor(new Color(133, 163, 209));
+        }
+        g2.fill(new Ellipse2D.Double(x, y, size, size));
+        g2.dispose();
+        super.paintComponent(grp);
+    }
+
 }

@@ -7,6 +7,7 @@ package ui.ColumnsTable;
 
 import components.StretchIcon;
 import helpers.UIHelper;
+import interfaces.SortingControlsCellListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -25,13 +26,25 @@ public class SortingControlsPanel extends javax.swing.JPanel {
      */
     public SortingControlsPanel() {
         initComponents();
-
-        btnSendToTop.setIcon(new StretchIcon(getClass().getResource("/icons/double-arrow-up_1.png"), true));
-        btnSendUp.setIcon(new StretchIcon(getClass().getResource("/icons/arrow-up_1.png"), true));
+        btnSendToTop.setIcon(new StretchIcon(getClass().getResource("/icons/double-arrow-up.png"), true));
+        btnSendUp.setIcon(new StretchIcon(getClass().getResource("/icons/arrow-up.png"), true));
         btnSendToBottom.setIcon(new StretchIcon(getClass().getResource("/icons/double-arrow-down.png"), true));
         btnSendDown.setIcon(new StretchIcon(getClass().getResource("/icons/arrow-down.png"), true));
-              
+    }
 
+    public void initSortingActionsListener(SortingControlsCellListener listener, int row) {
+        btnSendToTop.addActionListener(e -> {
+            listener.onSendToTopClicked(row);
+        });
+        btnSendToBottom.addActionListener(e -> {
+            listener.onSendToBottomClicked(row);
+        });
+        btnSendUp.addActionListener(e -> {
+            listener.onSendUpClicked(row);
+        });
+        btnSendDown.addActionListener(e -> {
+            listener.onSendDownClicked(row);
+        });
     }
 
     /**
@@ -43,37 +56,25 @@ public class SortingControlsPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnSendToBottom = new javax.swing.JButton();
-        btnSendToTop = new javax.swing.JButton();
-        btnSendUp = new javax.swing.JButton();
-        btnSendDown = new javax.swing.JButton();
+        btnSendToBottom = new ui.ColumnsTable.IconButton();
+        btnSendToTop = new ui.ColumnsTable.IconButton();
+        btnSendUp = new ui.ColumnsTable.IconButton();
+        btnSendDown = new ui.ColumnsTable.IconButton();
 
-        btnSendToBottom.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
-        btnSendToBottom.setMaximumSize(new java.awt.Dimension(37, 37));
-        btnSendToBottom.setMinimumSize(new java.awt.Dimension(37, 37));
-        btnSendToBottom.setPreferredSize(new java.awt.Dimension(37, 37));
+        btnSendToBottom.setPreferredSize(new java.awt.Dimension(19, 19));
 
-        btnSendToTop.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
-        btnSendToTop.setMaximumSize(new java.awt.Dimension(37, 37));
-        btnSendToTop.setMinimumSize(new java.awt.Dimension(37, 37));
-        btnSendToTop.setPreferredSize(new java.awt.Dimension(37, 37));
+        btnSendToTop.setPreferredSize(new java.awt.Dimension(19, 19));
 
-        btnSendUp.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
-        btnSendUp.setMaximumSize(new java.awt.Dimension(37, 37));
-        btnSendUp.setMinimumSize(new java.awt.Dimension(37, 37));
-        btnSendUp.setPreferredSize(new java.awt.Dimension(37, 37));
+        btnSendUp.setPreferredSize(new java.awt.Dimension(19, 19));
 
-        btnSendDown.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
-        btnSendDown.setMaximumSize(new java.awt.Dimension(37, 37));
-        btnSendDown.setMinimumSize(new java.awt.Dimension(37, 37));
-        btnSendDown.setPreferredSize(new java.awt.Dimension(37, 37));
+        btnSendDown.setPreferredSize(new java.awt.Dimension(19, 19));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 17, Short.MAX_VALUE)
                 .addComponent(btnSendToTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSendUp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -81,26 +82,27 @@ public class SortingControlsPanel extends javax.swing.JPanel {
                 .addComponent(btnSendDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSendToBottom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 18, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 20, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSendToBottom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSendUp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSendToTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSendUp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSendDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 21, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnSendDown;
-    private javax.swing.JButton btnSendToBottom;
-    private javax.swing.JButton btnSendToTop;
-    private javax.swing.JButton btnSendUp;
+    private ui.ColumnsTable.IconButton btnSendDown;
+    private ui.ColumnsTable.IconButton btnSendToBottom;
+    private ui.ColumnsTable.IconButton btnSendToTop;
+    private ui.ColumnsTable.IconButton btnSendUp;
     // End of variables declaration//GEN-END:variables
+
 }

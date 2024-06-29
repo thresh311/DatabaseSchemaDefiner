@@ -49,25 +49,27 @@ public class SettingsPanel extends javax.swing.JPanel {
 
         initializeSettingsFields();
 
-        btnTestConnection.addMouseListener(new SettingsPanelMouseAdapter());
-        btnBrowseSchemaFile.addMouseListener(new SettingsPanelMouseAdapter());
-        btnImportTables.addMouseListener(new SettingsPanelMouseAdapter());
-        btnLoadDefinitionFile.addMouseListener(new SettingsPanelMouseAdapter());
-        btnSaveSettings.addMouseListener(new SettingsPanelMouseAdapter());
-        btnSaveState.addMouseListener(new SettingsPanelMouseAdapter());
-        btnLoadSettings.addMouseListener(new SettingsPanelMouseAdapter());
+        MouseAdapter mouseAdapter = new SettingsPanelMouseAdapter();
+        btnTestConnection.addMouseListener(mouseAdapter);
+        btnBrowseSchemaFile.addMouseListener(mouseAdapter);
+        btnImportTables.addMouseListener(mouseAdapter);
+        btnLoadDefinitionFile.addMouseListener(mouseAdapter);
+        btnSaveSettings.addMouseListener(mouseAdapter);
+        btnSaveState.addMouseListener(mouseAdapter);
+        btnLoadSettings.addMouseListener(mouseAdapter);
 
-        tfPassword.getDocument().addDocumentListener(new SettingsPanelDocumentListener());
+        DocumentListener documentListener = new SettingsPanelDocumentListener();
+        tfPassword.getDocument().addDocumentListener(documentListener);
         tfPassword.getDocument().putProperty("owner", tfPassword);
-        tfUsername.getDocument().addDocumentListener(new SettingsPanelDocumentListener());
+        tfUsername.getDocument().addDocumentListener(documentListener);
         tfUsername.getDocument().putProperty("owner", tfUsername);
-        tfServerIp.getDocument().addDocumentListener(new SettingsPanelDocumentListener());
+        tfServerIp.getDocument().addDocumentListener(documentListener);
         tfServerIp.getDocument().putProperty("owner", tfServerIp);
-        tfDBSchema.getDocument().addDocumentListener(new SettingsPanelDocumentListener());
+        tfDBSchema.getDocument().addDocumentListener(documentListener);
         tfDBSchema.getDocument().putProperty("owner", tfDBSchema);
-        tfServerPort.getDocument().addDocumentListener(new SettingsPanelDocumentListener());
+        tfServerPort.getDocument().addDocumentListener(documentListener);
         tfServerPort.getDocument().putProperty("owner", tfServerPort);
-        tfSchemaFile.getDocument().addDocumentListener(new SettingsPanelDocumentListener());
+        tfSchemaFile.getDocument().addDocumentListener(documentListener);
         tfSchemaFile.getDocument().putProperty("owner", tfSchemaFile);
 
     }
