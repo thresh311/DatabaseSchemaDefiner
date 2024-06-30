@@ -1,15 +1,17 @@
 C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\model\Column.java
+C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\interfaces\SortingControlsCellListener.java
 C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\model\Index.java
 C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\ui\MainWindow.java
 C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\helpers\UIHelper.java
 C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\ui\TableStructurePanel.java
 C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\model\ForeignKeyRedefinition.java
+C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\ui\ColumnsTable\SortingControlsCellRenderer.java
 C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\helpers\SettingsHelper.java
 C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\model\Table.java
 C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\ui\ColumnsTable\SortingControlsPanel.java
 C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\interfaces\DefinitionPanelActionListener.java
-C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\ui\ColumnsTable\ButtonCellListener.java
 C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\ui\ColumnsTable\ColumnsTableDefaultCellRenderer.java
+C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\components\StretchIcon.java
 C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\ui\ColumnsTable\SvgIcon.java
 C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\interfaces\ReportMessageListener.java
 C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\model\TableConstraint.java
@@ -18,6 +20,7 @@ C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\ui
 C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\model\ForeignKeyConstraint.java
 C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\model\TableRedefinition.java
 C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\interfaces\SettingsPanelActionListener.java
+C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\interfaces\ButtonCellListener.java
 C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\model\UniqueKeyConstraint.java
 C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\ui\ColumnsTable\IconButton.java
 C:\Users\juanv\Documents\NetBeansProjects\DatabaseSchemaDefiner\src\main\java\model\PrimaryKeyConstraint.java
