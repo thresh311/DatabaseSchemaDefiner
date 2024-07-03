@@ -69,10 +69,12 @@ public class MainWindow
 
         this.dbHelper = dbHelper;
         this.settings = settings;
-        settingsPanel = new SettingsPanel(dbHelper, settings, this);
+        settingsPanel = new SettingsPanel(dbHelper, settings);
         settingsPanel.setReportMessageListener(this);
+        settingsPanel.setActionListener(this);
+        
         tableStructurePanel = new TableStructurePanel();
-        settingsPanel.setReportMessageListener(this);
+        tableStructurePanel.setReportMessageListener(this);
 
         mainContentPanel.setLayout(new BorderLayout());
         mainContentPanel.add(tableStructurePanel, BorderLayout.CENTER);

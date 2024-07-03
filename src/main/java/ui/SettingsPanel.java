@@ -40,10 +40,8 @@ public class SettingsPanel extends javax.swing.JPanel {
     /**
      * Creates new form SettingsPanel
      */
-    public SettingsPanel(DBHelper dbHelper, SettingsHelper settings, SettingsPanelActionListener listener) {
+    public SettingsPanel(DBHelper dbHelper, SettingsHelper settings) {
         initComponents();
-
-        this.actionsListener = listener;
         this.settings = settings;
         this.dbHelper = dbHelper;
 
@@ -85,6 +83,10 @@ public class SettingsPanel extends javax.swing.JPanel {
 
     public void setReportMessageListener(ReportMessageListener messageListener) {
         this.messageListener = messageListener;
+    }
+    
+    public void setActionListener(SettingsPanelActionListener actionListener) {
+        this.actionsListener = actionListener;
     }
 
     private void reportMessage(String message) {
